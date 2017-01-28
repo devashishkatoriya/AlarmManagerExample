@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(0,128,0); font-weight: bold; }
+.s3 { color: rgb(128,128,128); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">deva.alarmmanagerexample; 
+ 
+</span><span class="s0">import </span><span class="s1">android.content.Context; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity; 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.view.Menu; 
+</span><span class="s0">import </span><span class="s1">android.view.View; 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+ 
+</span><span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+ 
+    </span><span class="s0">private <a href="AlarmManagerBroadcastReceiver.java.html">AlarmManagerBroadcastReceiver</a> </span><span class="s1">alarm; 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        alarm = </span><span class="s0">new <a href="AlarmManagerBroadcastReceiver.java.html">AlarmManagerBroadcastReceiver</a></span><span class="s1">(); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onStart() { 
+        </span><span class="s0">super</span><span class="s1">.onStart(); 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">startRepeatingTimer(View view) 
+    { 
+        Context context = </span><span class="s0">this</span><span class="s1">.getApplicationContext(); 
+        </span><span class="s0">if</span><span class="s1">(alarm != </span><span class="s0">null</span><span class="s1">){ 
+            alarm.SetAlarm(context); 
+        }</span><span class="s0">else</span><span class="s1">{ 
+            Toast.makeText(context, </span><span class="s2">&quot;Alarm is null&quot;</span><span class="s1">, Toast.LENGTH_SHORT).show(); 
+        } 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">cancelRepeatingTimer(View view){ 
+        Context context = </span><span class="s0">this</span><span class="s1">.getApplicationContext(); 
+        </span><span class="s0">if</span><span class="s1">(alarm != </span><span class="s0">null</span><span class="s1">){ 
+            alarm.CancelAlarm(context); 
+        }</span><span class="s0">else</span><span class="s1">{ 
+            Toast.makeText(context, </span><span class="s2">&quot;Alarm is null&quot;</span><span class="s1">, Toast.LENGTH_SHORT).show(); 
+        } 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">onetimeTimer(View view){ 
+        Context context = </span><span class="s0">this</span><span class="s1">.getApplicationContext(); 
+        </span><span class="s0">if</span><span class="s1">(alarm != </span><span class="s0">null</span><span class="s1">){ 
+            alarm.setOnetimeTimer(context); 
+        }</span><span class="s0">else</span><span class="s1">{ 
+            Toast.makeText(context, </span><span class="s2">&quot;Alarm is null&quot;</span><span class="s1">, Toast.LENGTH_SHORT).show(); 
+        } 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onCreateOptionsMenu(Menu menu) { 
+       </span><span class="s3">// getMenuInflater().inflate( 0 ,menu);</span><span class="s1"> 
+        </span><span class="s0">return true</span><span class="s1">; 
+    } 
+ 
+ 
+}</span></pre>
+</body>
+</html>

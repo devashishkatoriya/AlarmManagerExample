@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>AlarmManagerBroadcastReceiver.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+AlarmManagerBroadcastReceiver.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">deva.alarmmanagerexample; 
+ 
+</span><span class="s2">/* 
+ * Created by Devashish Katoriya on 27-01-2017. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.AlarmManager; 
+</span><span class="s0">import </span><span class="s1">android.app.PendingIntent; 
+</span><span class="s0">import </span><span class="s1">android.content.BroadcastReceiver; 
+</span><span class="s0">import </span><span class="s1">android.content.Context; 
+</span><span class="s0">import </span><span class="s1">android.content.Intent; 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.os.PowerManager; 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+ 
+</span><span class="s0">import </span><span class="s1">java.text.DateFormat; 
+</span><span class="s0">import </span><span class="s1">java.text.Format; 
+</span><span class="s0">import </span><span class="s1">java.util.Date; 
+ 
+</span><span class="s0">public class </span><span class="s1">AlarmManagerBroadcastReceiver </span><span class="s0">extends </span><span class="s1">BroadcastReceiver { 
+    </span><span class="s0">final public static </span><span class="s1">String ONE_TIME = </span><span class="s3">&quot;onetime&quot;</span><span class="s1">; 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onReceive(Context context, Intent intent) { 
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE); 
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, </span><span class="s3">&quot;YOUR TAG&quot;</span><span class="s1">); 
+        </span><span class="s2">//Acquire the lock</span><span class="s1"> 
+        wl.acquire(); 
+ 
+        </span><span class="s2">//You can do the processing here update the widget/remote views.</span><span class="s1"> 
+        Bundle extras = intent.getExtras(); 
+        StringBuilder msgStr = </span><span class="s0">new </span><span class="s1">StringBuilder(); 
+ 
+        </span><span class="s0">if</span><span class="s1">(extras != </span><span class="s0">null </span><span class="s1">&amp;&amp; extras.getBoolean(ONE_TIME, Boolean.FALSE)){ 
+            msgStr.append(</span><span class="s3">&quot;One time Timer : &quot;</span><span class="s1">); 
+        } 
+        Format formatter = DateFormat.getDateTimeInstance(); 
+        msgStr.append(formatter.format(</span><span class="s0">new </span><span class="s1">Date())); 
+ 
+        Toast.makeText(context, msgStr, Toast.LENGTH_LONG).show(); 
+ 
+        </span><span class="s2">//Release the lock</span><span class="s1"> 
+        wl.release(); 
+ 
+    } 
+    </span><span class="s0">public void </span><span class="s1">SetAlarm(Context context) 
+    { 
+        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE); 
+        Intent intent = </span><span class="s0">new </span><span class="s1">Intent(context, AlarmManagerBroadcastReceiver.</span><span class="s0">class</span><span class="s1">); 
+        intent.putExtra(ONE_TIME, Boolean.FALSE); 
+        PendingIntent pi = PendingIntent.getBroadcast(context, </span><span class="s4">0</span><span class="s1">, intent, </span><span class="s4">0</span><span class="s1">); 
+        </span><span class="s2">//After after 30 seconds</span><span class="s1"> 
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), </span><span class="s4">1000 </span><span class="s1">* </span><span class="s4">5 </span><span class="s1">, pi); 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">CancelAlarm(Context context) 
+    { 
+        Intent intent = </span><span class="s0">new </span><span class="s1">Intent(context, AlarmManagerBroadcastReceiver.</span><span class="s0">class</span><span class="s1">); 
+        PendingIntent sender = PendingIntent.getBroadcast(context, </span><span class="s4">0</span><span class="s1">, intent, </span><span class="s4">0</span><span class="s1">); 
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE); 
+        alarmManager.cancel(sender); 
+    } 
+    </span><span class="s0">public void </span><span class="s1">setOnetimeTimer(Context context){ 
+        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE); 
+        Intent intent = </span><span class="s0">new </span><span class="s1">Intent(context, AlarmManagerBroadcastReceiver.</span><span class="s0">class</span><span class="s1">); 
+        intent.putExtra(ONE_TIME, Boolean.TRUE); 
+        PendingIntent pi = PendingIntent.getBroadcast(context, </span><span class="s4">0</span><span class="s1">, intent, </span><span class="s4">0</span><span class="s1">); 
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi); 
+    } 
+} 
+</span></pre>
+</body>
+</html>
